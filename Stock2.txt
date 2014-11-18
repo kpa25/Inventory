@@ -1,0 +1,3 @@
+BM | Big Mac | 2xM, 1xS1, 1xL1, 1xC1, 1xO1, 1xBB | 10 | 5
+P1 | Pickle |  2xM, 1xS1, 1xL1 | 200 | 0.001
+L1 | Lettuce | 1xC1, 1xO1 | 450 | 0.02
