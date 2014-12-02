@@ -18,10 +18,40 @@ public class Inventory {
 	public Inventory(File f) throws FileNotFoundException{
 		this.inventoryFile= f;
 		
+		
 		parseFile();
+		//updateStore();
 		
 	}//end of constructor
-
+	//method to find the missing entries in the file
+	public void updateStore() {
+		//after the missing entries are found, methods in the if statements update it 
+		for(int i=0; i< kahiniStore.size(); i++){
+			if(kahiniStore.get(i).numStock==-1){
+				generateStock();
+				
+			}
+			if(kahiniStore.get(i).price==-1){
+				generatePrice();
+				
+			}
+			if(kahiniStore.get(i).qtySubAssembly.size()==0 || kahiniStore.get(i).subAssemblyID.size()==0){
+				generateSubAssembly();
+			}
+		}
+	}
+	public void generateSubAssembly() {
+		// TODO Auto-generated method stub
+		
+	}
+	public void generatePrice() {
+		
+		
+	}
+	public void generateStock() {
+		// TODO Auto-generated method stub
+		
+	}
 	//method that reads the file and stores the variables for the  inventory
 	public void parseFile() throws FileNotFoundException{
 		//all the types of possible inputs in the inventory and their data types
@@ -61,7 +91,8 @@ public class Inventory {
 				//Special case; could be missing in a file
 					case 3:
 						if (token.equals("")){
-							System.out.println("Case 3 token is a space");
+							System.out.println("File is poorly formatted" );
+							return;
 						}else{
 							qtySubAssembly = parseSubQty(token);
 							subAssemblyNames = parseSubID(token);
@@ -71,12 +102,14 @@ public class Inventory {
 				//Special case; could be missing in the file
 					case 4:
 						if (token.equals("")){
-							counter=1;
+							System.out.println("File is poorly formatted" );
+							return;
+							/*counter=1;
 							numStock=-1;
 							price=-1;
 							//adding a new item 
 							Item currItem = new Item( ID, description, qtySubAssembly, subAssemblyNames,numStock, price);
-							kahiniStore.add(currItem);
+							kahiniStore.add(currItem);*/
 						}else{
 							counter++;
 							numStock= Integer.parseInt(token);
@@ -123,10 +156,28 @@ public class Inventory {
 		
 	}
 	//getting the ID from the list of sub assemblies
-	//make an arraylist of strings, that represents easch id of the sub assemblies (makes switch, add into the temp array list (string) , print out M, S1...
+	//make an arraylist of strings, that represents easch id of the sub assemblies (makes switch, add into the temp array list (string) , print out M, S1...)
 	public ArrayList<String> parseSubID(String token){
+		StringTokenizer t= new StringTokenizer(token, ",x");
+		int counter=1;
+		ArrayList<String> temp= new ArrayList<String>();
 		
-		return null;
+		while(t.hasMoreTokens()){
+		String tok=t.nextToken().trim();
+				switch(counter){
+					case 1:
+						counter++;						
+						break;
+					case 2:
+						temp.add(tok);
+						counter=1;
+						break;
+				}
+		}
+		/*for(int i=0; i<temp.size(); i++){
+			System.out.println(temp.get(i));
+		}*/
+		return temp;
 		
 	}
 }//end of Inventory class
