@@ -27,12 +27,13 @@ public class Inventory {
 	public void updateStore() {
 		//after the missing entries are found, methods in the if statements update it 
 		for(int i=0; i< kahiniStore.size(); i++){
+			//checking if the numStock from the file 
 			if(kahiniStore.get(i).numStock==-1){
 				generateStock();
 				
 			}
 			if(kahiniStore.get(i).price==-1){
-				generatePrice();
+				generatePrice(i);
 				
 			}
 			if(kahiniStore.get(i).qtySubAssembly.size()==0 || kahiniStore.get(i).subAssemblyID.size()==0){
@@ -40,14 +41,39 @@ public class Inventory {
 			}
 		}
 	}
+	
+	public void updateSub(ArrayList<String> sub) {
+		//after the missing entries are found, methods in the if statements update it 
+		for(int i=0; i< sub.size(); i++){
+			//checking if the numStock from the file 
+			for(int j=0; j<kahiniStore.size(); j++){
+				
+			}
+		}
+	}
+	
 	public void generateSubAssembly() {
 		// TODO Auto-generated method stub
 		
 	}
-	public void generatePrice() {
-		
-		
-	}
+	public void generatePrice(int index) {
+		double price=0;
+		for(int i=0; i<kahiniStore.get(index).qtySubAssembly.size(); i++){
+			String ID= kahiniStore.get(index).subAssemblyID.get(i);
+			for(int j=0; i< kahiniStore.size(); j++){
+				if(kahiniStore.get(j).ID.equals(ID)){
+				 if(kahiniStore.get(j).price==-1){
+					 updateSub(kahiniStore.get(j).subAssemblyID); 
+				 }else{
+					 
+					 price= price + (kahiniStore.get(j).price * kahiniStore.get(j).qtySubAssembly.get(i));
+				 }
+				}//end of outer if
+			}//end of inner for
+		}//end of outer for
+		kahiniStore.get(index).price= price;
+	}//end of generatePrice
+	
 	public void generateStock() {
 		// TODO Auto-generated method stub
 		
