@@ -9,6 +9,8 @@ public class Item {
 	 ArrayList<String> subAssemblyID;
 	 int numStock;
 	 double price;
+	 //used in generating the reciept 
+	 int numBought;
 	 
 	public Item(String ID, String description, ArrayList<Integer> qtySubAssembly, ArrayList<String> subAssemblyID, 
 			int numStock, double price){
