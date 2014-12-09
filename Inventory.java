@@ -35,10 +35,15 @@ public class Inventory {
 			if(kahiniStore.get(i).price==-1){
 				generatePrice(i);
 				
+				
 			}
 			if(kahiniStore.get(i).qtySubAssembly.size()==0 || kahiniStore.get(i).subAssemblyID.size()==0){
 				generateSubAssembly();
 			}
+		}//end of for
+		for(int j=0; j< kahiniStore.size(); j++){
+			System.out.println(kahiniStore.get(j).price);
+			
 		}
 	}
 	
