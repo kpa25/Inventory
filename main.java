@@ -1,19 +1,27 @@
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Scanner;
 
 public class main {
 	static Inventory I = null;
-
+	static ArrayList<Item> receipt = new ArrayList<Item>();
 	/**
 	 * @param args
-	 * @throws FileNotFoundException
+	 * @throws IOException 
 	 */
-	public static void main(String[] args) throws FileNotFoundException {
+	public static void main(String[] args) throws IOException {
 		// TODO Auto-generated method stub
 
-		System.out.println("reading the file now");
+		//System.out.println("reading the file now");
 
 		String f = args[0];
 		File file = new File(f);
@@ -23,11 +31,12 @@ public class main {
 		System.out.println("Press 2 to REMOVE an item");
 		System.out.println("Press 3 to ADD a quantity");
 		System.out.println("Press 4 to REMOVE a quantity");
+		System.out.println("Press 5 to enter POS mode");
 		System.out.println("Press q to quit the program");
 
 		Scanner in = new Scanner(System.in);
 		while (true) {
-System.out.println(I.kahiniStore.size());
+		//System.out.println(I.kahiniStore.size());
 			String input = in.next();
 
 			// stops the program when the user enters q
@@ -42,7 +51,14 @@ System.out.println(I.kahiniStore.size());
 				addQty();
 			} else if (input.equals("4")) {
 				removeQty();
-
+			}else if (input.equals("5")){
+				posMode();
+				for(int i=0; i< I.kahiniStore.size(); i++){
+					System.out.println(receipt.get(i).description);
+					System.out.println(receipt.get(i).numStock);
+				}
+				createReceipt();
+				
 			} else {
 				System.out.println("The input you entered is not valid. Try again.");
 				continue;
@@ -51,7 +67,75 @@ System.out.println(I.kahiniStore.size());
 		}// end of while loop
 
 	}
-
+	
+	public static void createReceipt() throws IOException {
+		BufferedWriter writer = null;
+		//creating the file receipt.txt
+		writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream("Receipt.txt")));
+		DateFormat dateFormat = new SimpleDateFormat ("yyyy/MM/dd HH:mm:ss");
+		Date date = new Date();
+		writer.write(dateFormat.format(date));
+		writer.newLine();
+		double finalTotal=0;
+		for(int i=0; i< receipt.size(); i++){
+			double itemTotal=receipt.get(i).numBought*receipt.get(i).price;
+			finalTotal= itemTotal + finalTotal;
+			writer.write(receipt.get(i).numBought + " " + receipt.get(i).description + " @ " + receipt.get(i).price + "       " + itemTotal); 
+			writer.newLine();
+		}
+		writer.newLine();
+		writer.write("-----------------------");
+		writer.newLine();
+		writer.write("TOTAL:      " + "$" +finalTotal);
+		writer.close();
+		
+	}
+	//method that enters the POS mode, displays the menu and asks the user what they want to purchase, while adding it to the recepit
+	public static void posMode() {
+		System.out.println("Here is the menu:");
+		
+		for(int i=0; i< I.kahiniStore.size();  i++){
+			System.out.println(i+ " " + I.kahiniStore.get(i).description + " " + I.kahiniStore.get(i).price);
+			
+		}
+		
+		Scanner in =new Scanner(System.in);
+		while(true) {
+			//storing the items/qty bought
+			System.out.println("Enter the item number you want to purchase");
+			String input = in.next();
+			if(input.equals("q")){
+				return;
+			}
+			int itemNum =Integer.parseInt(input);
+			if(itemNum > I.kahiniStore.size()-1){
+				System.out.println("The input you entered is invalid, please restart the program");
+				return;
+			}
+			System.out.println("Enter the quantity of items you want to purchase");
+			int qtyBought =Integer.parseInt(in.next());
+			//checking to see that the qty wanted by the user is not 
+			if(qtyBought>I.kahiniStore.get(itemNum).numStock){
+				System.out.println("The number you ordered is greater than our stock. Please restart the program");
+				return;
+			}
+			
+			I.kahiniStore.get(itemNum).numStock = I.kahiniStore.get(itemNum).numStock - qtyBought; 
+			//removing qty in stock based on qty bought
+			for(int i=0; i<I.kahiniStore.get(itemNum).qtySubAssembly.size(); i++){
+				for(int j=0; i< I.kahiniStore.size(); j++){
+						 if(I.kahiniStore.get(itemNum).subAssemblyID.get(j).equals(I.kahiniStore.get(i).ID)){
+							 I.kahiniStore.get(i).numStock = I.kahiniStore.get(i).numStock - (I.kahiniStore.get(i).qtySubAssembly.get(i) * qtyBought);		
+						 }//end of if
+				}//end of inner for
+			}//end of outer for
+			Item temp=I.kahiniStore.get(itemNum);
+			temp.numBought= qtyBought;
+			receipt.add(temp);
+		}
+	}
+	
+	
 	public static void addQty() {
 		System.out.println("Enter ID of the item you want to add quantity of");
 		Scanner in = new Scanner(System.in);
