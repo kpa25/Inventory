@@ -122,8 +122,8 @@ public class Inventory {
 				//Special case; could be missing in a file
 					case 3:
 						if (token.equals("")){
-							System.out.println("File is poorly formatted" );
-							return;
+							System.out.println("File is poorly formatted, apply new file" );
+							System.exit(0);
 						}else{
 							qtySubAssembly = parseSubQty(token);
 							subAssemblyNames = parseSubID(token);
@@ -151,6 +151,16 @@ public class Inventory {
 						price=Double.parseDouble(token);
 						counter=1;
 						Item currItem = new Item( ID, description, qtySubAssembly, subAssemblyNames,numStock, price);
+						if(currItem.subAssemblyID.size()>=1 && currItem.subAssemblyID.size()<=5){
+							int n = currItem.qtySubAssembly.size();
+							double discount= (n*10)/100 * price;
+							price=price-discount;	
+						}
+						if(currItem.subAssemblyID.size() >5){
+							double discount= (.5*price);
+							price=price-discount;
+						}
+						currItem.price = price;
 						kahiniStore.add(currItem);
 						break;	
 				}//end of switch statement 
