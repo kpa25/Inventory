@@ -1,3 +1,8 @@
 BM | Big Mac | 2xM, 1xS1, 1xL1, 1xC1, 1xO1, 1xBB | 10 | 5
-P1 | Pickle |  2xM, 1xS1, 1xL1 | 200 | 0.001
-L1 | Lettuce | 1xC1, 1xO1 | 450 | 0.02
+P1 | Pickle |1xP1 | 200 | 0.001
+L1 | Lettuce |1xL1 | 450 | 0.02
+S1 | Sauce |1xS1| 1500 | 0.15
+C1 | Cheese |1xC1 | 1000 | 0.07
+O1 | Onions |1xO1| 145 | 0.13
+M | Meat, Single Patty|1xM | 200 | 1.95
+BB | Bun, Big Mac Assembly | 1xB0, 1xB2 |20 |1.00
