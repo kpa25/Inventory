@@ -27,12 +27,16 @@ public class main {
 		File file = new File(f);
 		I = new Inventory(file);
 
+		System.out.println("Options Menu");
+		System.out.println("------------");
 		System.out.println("Press 1 to ADD an item");
 		System.out.println("Press 2 to REMOVE an item");
 		System.out.println("Press 3 to ADD a quantity");
 		System.out.println("Press 4 to REMOVE a quantity");
 		System.out.println("Press 5 to enter POS mode");
-		System.out.println("Press q to quit the program");
+		System.out.println("Press 6 to PRINT Recipt");
+		System.out.println("Press q to QUIT the program");
+		System.out.println("------------");
 
 		Scanner in = new Scanner(System.in);
 		while (true) {
@@ -53,12 +57,12 @@ public class main {
 				removeQty();
 			}else if (input.equals("5")){
 				posMode();
-				for(int i=0; i< I.kahiniStore.size(); i++){
-					System.out.println(receipt.get(i).description);
-					System.out.println(receipt.get(i).numStock);
-				}
 				createReceipt();
-				
+			}else if (input.equals("6")){
+				System.out.println("Here is a simple receipt, the final receipt is printed to a text file named: receipt.txt");
+				for(int i=0; i< receipt.size(); i++){
+					System.out.println("You bought: " + receipt.get(i).numBought + " " + receipt.get(i).description);
+				}
 			} else {
 				System.out.println("The input you entered is not valid. Try again.");
 				continue;
@@ -72,7 +76,7 @@ public class main {
 		BufferedWriter writer = null;
 		//creating the file receipt.txt
 		writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream("Receipt.txt")));
-		DateFormat dateFormat = new SimpleDateFormat ("yyyy/MM/dd HH:mm:ss");
+		DateFormat dateFormat = new SimpleDateFormat ("MM/dd/yyyy H:mm:ss");
 		Date date = new Date();
 		writer.write(dateFormat.format(date));
 		writer.newLine();
@@ -102,34 +106,47 @@ public class main {
 		Scanner in =new Scanner(System.in);
 		while(true) {
 			//storing the items/qty bought
-			System.out.println("Enter the item number you want to purchase");
+			System.out.println("Enter the item number you want to purchase, or q");
 			String input = in.next();
-			if(input.equals("q")){
+			if(input.equals("q") || input.equals("")){
+				System.out.println("Press 6 to print simple receipt");
 				return;
 			}
 			int itemNum =Integer.parseInt(input);
 			if(itemNum > I.kahiniStore.size()-1){
-				System.out.println("The input you entered is invalid, please restart the program");
+				System.out.println("The input you entered is invalid, Please refer back to the options menu and pick a new option.");
 				return;
 			}
-			System.out.println("Enter the quantity of items you want to purchase");
-			int qtyBought =Integer.parseInt(in.next());
+			System.out.println("Enter the quantity of items you want to purchase or q.");
+			input = in.next();
+			if(input.equals("") || input.equals("q")){
+				System.out.println("Press 6 to print simple receipt");
+				return;
+			}
+			int qtyBought =Integer.parseInt(input);
+			
 			//checking to see that the qty wanted by the user is not 
 			if(qtyBought>I.kahiniStore.get(itemNum).numStock){
-				System.out.println("The number you ordered is greater than our stock. Please restart the program");
+				System.out.println("The number you ordered is greater than our stock. Please ");
 				return;
 			}
 			
 			I.kahiniStore.get(itemNum).numStock = I.kahiniStore.get(itemNum).numStock - qtyBought; 
 			//removing qty in stock based on qty bought
 			for(int i=0; i<I.kahiniStore.get(itemNum).qtySubAssembly.size(); i++){
-				for(int j=0; i< I.kahiniStore.size(); j++){
-						 if(I.kahiniStore.get(itemNum).subAssemblyID.get(j).equals(I.kahiniStore.get(i).ID)){
-							 I.kahiniStore.get(i).numStock = I.kahiniStore.get(i).numStock - (I.kahiniStore.get(i).qtySubAssembly.get(i) * qtyBought);		
+				String currSubID = I.kahiniStore.get(itemNum).subAssemblyID.get(i);
+				for(int j=0; j< I.kahiniStore.size(); j++){
+					//System.out.println("inside inner for " + I.kahiniStore.get(j).ID);
+						 if(I.kahiniStore.get(j).ID.equals(currSubID)){
+							// int num = I.kahiniStore.get(j).numStock; 
+							
+							 I.kahiniStore.get(j).numStock = I.kahiniStore.get(j).numStock - (I.kahiniStore.get(itemNum).qtySubAssembly.get(i) * qtyBought);		
+							 break;
 						 }//end of if
 				}//end of inner for
 			}//end of outer for
 			Item temp=I.kahiniStore.get(itemNum);
+			
 			temp.numBought= qtyBought;
 			receipt.add(temp);
 		}
