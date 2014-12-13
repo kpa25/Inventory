@@ -1,8 +1,17 @@
-BM | Big Mac | 2xM, 1xS1, 1xL1, 1xC1, 1xO1, 1xBB | 10 | 5
+BM | Big Mac | 2xM, 1xS1, 1xL1, 1xC1, 1xO1, 1xBB | 100|3.67
 P1 | Pickle |1xP1 | 200 | 0.001
 L1 | Lettuce |1xL1 | 450 | 0.02
-S1 | Sauce |1xS1| 1500 | 0.15
+S1 | Sauce |1xS1 | 1500 | 0.15
 C1 | Cheese |1xC1 | 1000 | 0.07
-O1 | Onions |1xO1| 145 | 0.13
-M | Meat, Single Patty|1xM | 200 | 1.95
-BB | Bun, Big Mac Assembly | 1xB0, 1xB2 |20 |1.00
+O1 | Onions |1xO1 | 145 | 0.13
+SCS | Soda Cup, Small |1xSCS | 1000 | 0.45
+SCM | Soda Cup, Medium |1xSCM | 1500 | 0.50
+SCL | Soda Cup, Large |1xSCL | 2000 | 0.55
+B0 | Bun, Regular Sesame |1xB0 | 280 | 1.15
+B2 | Bun, Extra Center Piece|1xB2 | 170 | 0.75
+BB | Bun, Big Mac Assembly | 1xB0, 1xB2 |400 |1.50
+M | Meat, Single Patty |1xM| 200 | 1.95
+BQ | BarBCue Sauce |1xBQ| 1500 | 0.50
+CN | Chicken Nugget |1xCN| 10000 | 0.25
+BMS | Big Mac Meal, Small | 1xBM, 1xSCS | 100|4.12
+6PCS | 6PC Chicken Nugget Meal | 6xCN, 1xBQ, 1xSCS |500 |2.45
