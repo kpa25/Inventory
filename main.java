@@ -29,6 +29,7 @@ public class main {
 
 		System.out.println("Options Menu");
 		System.out.println("------------");
+		System.out.println("Required Fields for an Item: ID|description|(subAssemblyQTY)x(subAssemblyID)|Qty|price");
 		System.out.println("Press 1 to ADD an item");
 		System.out.println("Press 2 to REMOVE an item");
 		System.out.println("Press 3 to ADD a quantity");
@@ -84,11 +85,11 @@ public class main {
 		for(int i=0; i< receipt.size(); i++){
 			double itemTotal=receipt.get(i).numBought*receipt.get(i).price;
 			finalTotal= itemTotal + finalTotal;
-			writer.write(receipt.get(i).numBought + " " + receipt.get(i).description + " @ " + receipt.get(i).price + "       " + itemTotal); 
+			writer.write(receipt.get(i).numBought + " " + receipt.get(i).description + " @ " + receipt.get(i).price + "    |$ " + itemTotal); 
 			writer.newLine();
 		}
 		writer.newLine();
-		writer.write("-----------------------");
+		writer.write("----------------------------------");
 		writer.newLine();
 		writer.write("TOTAL:      " + "$" +finalTotal);
 		writer.close();
