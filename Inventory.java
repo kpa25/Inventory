@@ -23,8 +23,10 @@ public class Inventory {
 		//updateStore();
 		
 	}//end of constructor
+	
+	//This is included only because i thought this was a part of the assignment, but once I found out it wasn't I just commented it out 
 	//method to find the missing entries in the file
-	public void updateStore() {
+	/*public void updateStore() {
 		//after the missing entries are found, methods in the if statements update it 
 		for(int i=0; i< kahiniStore.size(); i++){
 			//checking if the numStock from the file 
@@ -82,7 +84,7 @@ public class Inventory {
 	public void generateStock() {
 		// TODO Auto-generated method stub
 		
-	}
+	}*/
 	//method that reads the file and stores the variables for the  inventory
 	public void parseFile() throws FileNotFoundException{
 		//all the types of possible inputs in the inventory and their data types
